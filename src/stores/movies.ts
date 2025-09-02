@@ -1,22 +1,22 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { getMovieComments, getMovies } from '@/service/apiClient'
 import type { Movie, Comment } from '@/types/api'
 
 export const useMoviesStore = defineStore('movies', () => {
   const movies = ref<Movie[] | null>(null)
   const movieComments = ref<Comment[]>([])
-  const loaded = ref(false)
+  const moviesLoaded = ref(false)
+
+  const getMovieById = computed(() => (id: number) => {
+    return movies.value?.find((movie) => movie.id === id) || null
+  })
 
   async function loadMovies() {
-    if (!loaded.value) {
+    if (!moviesLoaded.value) {
       movies.value = await getMovies()
-      loaded.value = true
+      moviesLoaded.value = true
     }
-  }
-
-  function getMovieById(id: number) {
-    return movies.value?.find((movie) => movie.id === id) || null
   }
 
   async function loadMovieComments(id: number) {
@@ -27,5 +27,13 @@ export const useMoviesStore = defineStore('movies', () => {
     movieComments.value.unshift(comment)
   }
 
-  return { movies, movieComments, loaded, loadMovies, getMovieById, loadMovieComments, addComment }
+  return {
+    movies,
+    movieComments,
+    moviesLoaded,
+    getMovieById,
+    loadMovies,
+    loadMovieComments,
+    addComment,
+  }
 })

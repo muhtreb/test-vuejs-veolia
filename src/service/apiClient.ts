@@ -40,13 +40,11 @@ export const getMovies = async (): Promise<Movie[]> => {
 }
 
 export const getMovieComments = async (id: number): Promise<Comment[]> => {
-  const response = await apiRequest<Comment[]>(`/comments/${id}`, 'GET')
-  return response
+  return await apiRequest<Comment[]>(`/comments/${id}`, 'GET')
 }
 
 export const createMovieComment = async (id: number, comment: Comment): Promise<Comment> => {
-  const response = await apiRequest<Comment>(`/comments/${id}`, 'POST', comment)
-  return response
+  return await apiRequest<Comment>(`/comments/${id}`, 'POST', comment)
 }
 
 export default apiClient

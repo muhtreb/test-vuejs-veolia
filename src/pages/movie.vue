@@ -46,7 +46,8 @@ const movie = computed(() => moviesStore.getMovieById(movieId))
 const { movieComments } = storeToRefs(moviesStore)
 
 const breadcrumbs = computed(() => [
-  { title: 'Films', to: { name: 'home' } },
+  { title: 'Accueil', to: { name: 'home' } },
+  { title: 'Films', to: { name: 'movies' } },
   movie.value ? { title: movie.value.title, disabled: true } : { title: 'Film', disabled: true },
 ])
 
